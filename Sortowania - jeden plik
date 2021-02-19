@@ -1,0 +1,198 @@
+import random
+import os
+from datetime import datetime
+
+
+def insertionSort1(tablica1):
+    t1 = datetime.now()
+    for i in range(1, len(tablica1)):
+        key = tablica1[i]
+        j = i - 1
+
+        while j >= 0 and key < tablica1[j]:
+            tablica1[j + 1] = tablica1[j]
+            j -= 1
+        tablica1[j + 1] = key
+
+    t2 = datetime.now()
+    print("czas")
+    print(t2 - t1)
+
+
+def insertionSort2(tablica1):
+    t1 = datetime.now()
+    for i in range(1, len(tablica1)):
+        key = tablica1[i]
+        j = i - 1
+
+        while j >= 0 and key > tablica1[j]:
+            tablica1[j + 1] = tablica1[j]
+            j -= 1
+        tablica1[j + 1] = key
+
+    t2 = datetime.now()
+    print("czas")
+    print(t2 - t1)
+
+
+def SelectionSort1(tablica2):
+    t1 = datetime.now()
+    for i in range(len(tablica2)):
+        min_index = i
+
+        for j in range(i + 1, len(tablica2)):
+            if tablica2[min_index] > tablica[j]:
+                min_index = j
+
+        tablica2[i], tablica2[min_index] = tablica2[min_index], tablica2[i]
+    t2 = datetime.now()
+    print("czas")
+    print(t2 - t1)
+
+
+def SelectionSort2(tablica2):
+    t1 = datetime.now()
+    for i in range(len(tablica2)):
+        min_index = i
+
+        for j in range(i + 1, len(tablica2)):
+            if tablica2[min_index] < tablica[j]:
+                min_index = j
+
+        tablica2[i], tablica2[min_index] = tablica2[min_index], tablica2[i]
+    t2 = datetime.now()
+    print("czas")
+    print(t2 - t1)
+
+
+def mergeSort1(tablica3):
+    if len(tablica3) > 1:
+        mid = len(tablica3) // 2 #dzielenie z przybliżenie z niedomiarem do całości (np. 5 / 2 = 2)
+        L = tablica3[:mid]
+        R = tablica3[mid:]
+        mergeSort1(L)
+        mergeSort1(R)
+        i = j = k = 0
+
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                tablica3[k] = L[i]
+                i += 1
+            else:
+                tablica3[k] = R[j]
+                j += 1
+            k += 1
+
+        # Sprawdzenie, czy element na lewo 
+        while i < len(L):
+            tablica3[k] = L[i]
+            i += 1
+            k += 1
+
+        while j < len(R):
+            tablica3[k] = R[j]
+            j += 1
+            k += 1
+
+
+def mergeSort2(tablica3):
+    if len(tablica3) > 1:
+        mid = len(tablica3) // 2
+        L = tablica3[:mid]
+        R = tablica3[mid:]
+        mergeSort2(L)
+        mergeSort2(R)
+        i = j = k = 0
+
+        while i < len(L) and j < len(R):
+            if L[i] > R[j]:
+                tablica3[k] = L[i]
+                i += 1
+            else:
+                tablica3[k] = R[j]
+                j += 1
+            k += 1
+
+        # Sprawdzanie, czy element na lewo
+        while i < len(L):
+            tablica3[k] = L[i]
+            i += 1
+            k += 1
+
+        while j < len(R):
+            tablica3[k] = R[j]
+            j += 1
+            k += 1
+
+tablica = [random.randint(-10000, 10000) for i in range(45000)] # Tutaj w eksperymencie następywało manualne zmienianie ilości elementów w zależności od badanego elementu pomiarowego
+for p in range(5):
+    tablica1 = tablica
+    tablica2 = tablica
+    tablica3 = tablica
+    print("Selection Sort")
+    print("los")
+    SelectionSort1(tablica1)
+    print("\n")
+    print("sortowanie od m do W elementu") #sortowanie posortowanych
+    SelectionSort1(tablica1)
+    print("\n")
+    print("sortowanie od W do m elementu") #sortowanie ,,odwrotnie posortowanych", a wlasciwie odwrocenie sortowania, wiec wychodzi na to samo
+    SelectionSort2(tablica1)
+
+    print("\n \n")
+    print("Insertion Sort")
+    print("los")
+    insertionSort1(tablica2)
+    print("\n")
+    print("sortowanie od m do W elementu") #sortowanie posortowanych
+    insertionSort1(tablica2)
+    print("\n")
+    print("sortowanie od W do m elementu") #sortowanie ,,odwrotnie posortowanych", a wlasciwie odwrocenie sortowania, wiec wychodzi na to samo
+    insertionSort2(tablica2)
+
+    print("\n \n")
+    print("Merge Sort")
+    print("los")
+    t1 = datetime.now()
+    mergeSort1(tablica3)
+    t2 = datetime.now()
+    t3 = t2 - t1
+    print("czas:")
+    print(t3)
+    print("\n")
+
+    print("sortowanie od m do W elementu") #sortowanie posortowanych
+    t1 = datetime.now()
+    mergeSort1(tablica3)
+    t2 = datetime.now()
+    t3 = t2 - t1
+    print("czas:")
+    print(t3)
+    print("\n")
+
+    print("sortowanie od W do m elementu") #sortowanie ,,odwrotnie posortowanych", a wlasciwie odwrocenie sortowania, wiec wychodzi na to samo
+    t1 = datetime.now()
+    mergeSort2(tablica3)
+    t2 = datetime.now()
+    t3 = t2 - t1
+    print("czas:")
+    print(t3)
+
+print("\n \n")
+print("Dodanie do tabeli nieposotrowanych liczb losowych")
+tablica.extend(random.randint(-10000, 10000) for j in range(10000)) # rozszerzenie tablicy o losowe dane z przedziału i o ich ilość
+tablica1 = tablica
+tablica3 = tablica
+print("Insertion sort rozszerzone o dane")
+insertionSort2(tablica1)
+
+
+print("Merge sort rozszerzone o dane")
+t1 = datetime.now()
+mergeSort2(tablica3)
+t2 = datetime.now()
+t3 = t2 - t1
+print("czas:")
+print(t3)
+
+os.system("PAUSE")
